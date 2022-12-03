@@ -52,11 +52,12 @@ public class BookSellerAgent extends Agent {
   }
 
   //invoked from GUI, when a new book is added to the catalogue
-  public void updateCatalogue(final String title, final int price) {
+  public void updateCatalogue(final String title, final int price, final int shippingCost) {
     addBehaviour(new OneShotBehaviour() {
       public void action() {
-		catalogue.put(title, new Integer(price));
-		System.out.println(getAID().getLocalName() + ": " + title + " put into the catalogue. Price = " + price);
+		  Book book = new Book(title, price, shippingCost);
+		  catalogue.put(title, book);
+		  System.out.println(getAID().getLocalName() + ": " + title + " put into the catalogue. Price = " + price + ". Shipping cost = " + shippingCost);
       }
     } );
   }
@@ -69,11 +70,11 @@ public class BookSellerAgent extends Agent {
 	    if (msg != null) {
 	      String title = msg.getContent();
 	      ACLMessage reply = msg.createReply();
-	      Integer price = (Integer) catalogue.get(title);
-	      if (price != null) {
+	      Book book = (Book) catalogue.get(title);
+	      if (book != null) {
 	        //title found in the catalogue, respond with its price as a proposal
 	        reply.setPerformative(ACLMessage.PROPOSE);
-	        reply.setContent(String.valueOf(price.intValue()));
+	        reply.setContent(String.valueOf(book.getTotalPrice()));
 	      }
 	      else {
 	        //title not found in the catalogue
@@ -97,8 +98,8 @@ public class BookSellerAgent extends Agent {
 	    if (msg != null) {
 	      String title = msg.getContent();
 	      ACLMessage reply = msg.createReply();
-	      Integer price = (Integer) catalogue.remove(title);
-	      if (price != null) {
+	      Book book = (Book) catalogue.remove(title);
+	      if (book != null) {
 	        reply.setPerformative(ACLMessage.INFORM);
 	        System.out.println(getAID().getLocalName() + ": " + title + " sold to " + msg.getSender().getLocalName());
 	      }
