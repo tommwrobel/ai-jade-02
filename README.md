@@ -16,3 +16,6 @@
 2. Dzięki temu możemy sterować agentami i spradzać czy w przypadku braku odpowiedzi nasz program działa poprawnie.
 3. Dodanie zmiennej maxIterations w BookBuyerAgent: jeśli znajdziemy książkę, to szukamy najlepszej oferty przez 10 iteracji (spradzamy czy wszyscy agencji wyslali swoje odpowiedzi)
 4. Jeśli nie znaleźliśmy żadnej oferty to szukamy aż znajdziemy (tutaj logika się nie zmieniła).
+
+//zadanie 5 - propozycja rozwiazania
+1. Kaazda ksiazka sellera powinna miec również status który oznacza czy ksiazka jest zaoferowana juz ktoremus sellerowu czy nie, jesli jest to nie bierze jej pod uwagę podczas otwrzymania requesta od innego sellera.
