@@ -17,7 +17,7 @@ class BookBuyerGui extends JFrame {
 		myAgent = a;
 		
 		JPanel p = new JPanel();
-		p.setLayout(new GridLayout(2, 2));
+		p.setLayout(new GridLayout(3, 2));
 		p.add(new JLabel("Title:"));
 		titleField = new JTextField(15);
 		p.add(titleField);

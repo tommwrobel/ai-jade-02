@@ -13,6 +13,7 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 public class BookBuyerAgent extends Agent {
   private BookBuyerGui myGui;
   private String targetBookTitle;
+  private int budget;
   
   //list of found sellers
   private AID[] sellerAgents;
@@ -26,7 +27,10 @@ public class BookBuyerAgent extends Agent {
 		//as a CLI argument
 		int interval = 20000;
 		Object[] args = getArguments();
-		if (args != null && args.length > 0) interval = Integer.parseInt(args[0].toString());
+		if (args != null && args.length > 0) {
+			interval = Integer.parseInt(args[0].toString());
+			this.budget = Integer.parseInt(args[1].toString());
+		};
 	  addBehaviour(new TickerBehaviour(this, interval)
 	  {
 		  protected void onTick()
@@ -116,10 +120,17 @@ public class BookBuyerAgent extends Agent {
 	            bestSeller = reply.getSender();
 	          }
 	        }
+
+			// TODO: p. 3. jesli agent odpowie inaczej, trzeba zmienic tego ifa
 	        repliesCnt++;
 	        if (repliesCnt >= sellerAgents.length) {
-	          //all proposals have been received
-	          step = 2; 
+				if (budget < bestPrice) {
+					System.out.println(getAID().getLocalName() + ": purchase has failed. Budget is too low. Budged is: " + budget + " , best price found: " + bestPrice);
+					targetBookTitle = "";
+					step = 4;
+				} else {
+					step = 2;
+				}
 	        }
 	      }
 	      else {
@@ -144,8 +155,9 @@ public class BookBuyerAgent extends Agent {
 	      if (reply != null) {
 	        if (reply.getPerformative() == ACLMessage.INFORM) {
 	          //purchase succeeded
+				budget -= bestPrice;
 	          System.out.println(getAID().getLocalName() + ": " + targetBookTitle + " purchased for " + bestPrice + " from " + reply.getSender().getLocalName());
-		  System.out.println(getAID().getLocalName() + ": waiting for the next purchase order.");
+		  System.out.println(getAID().getLocalName() + ": waiting for the next purchase order. Budget left: " + budget);
 		  targetBookTitle = "";
 	          //myAgent.doDelete();
 	        }
@@ -158,7 +170,7 @@ public class BookBuyerAgent extends Agent {
 	        block();
 	      }
 	      break;
-	    }        
+		}
 	  }
 	
 	  public boolean done() {
