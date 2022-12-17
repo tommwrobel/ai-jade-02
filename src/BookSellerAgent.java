@@ -1,34 +1,41 @@
 package jadelab2;
 
 import jade.core.Agent;
-import jade.core.behaviours.*;
-import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.domain.DFService;
-import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 
-import java.util.*;
+import java.util.Hashtable;
 
 public class BookSellerAgent extends Agent {
   private Hashtable catalogue;
   private BookSellerGui myGui;
+	private boolean responseIfNotFound = true;
 
   protected void setup() {
-    catalogue = new Hashtable();
-    myGui = new BookSellerGui(this);
-    myGui.display();
+	  catalogue = new Hashtable();
+	  myGui = new BookSellerGui(this);
+	  myGui.display();
 
-    //book selling service registration at DF
-    DFAgentDescription dfd = new DFAgentDescription();
-    dfd.setName(getAID());
-    ServiceDescription sd = new ServiceDescription();
-    sd.setType("book-selling");
-    sd.setName("JADE-book-trading");
-    dfd.addServices(sd);
-    try {
-      DFService.register(this, dfd);
+	  Object[] args = getArguments();
+	  if (args != null && args.length > 0) {
+		  this.responseIfNotFound = Boolean.valueOf(args[0].toString());
+	  }
+
+	  //book selling service registration at DF
+	  DFAgentDescription dfd = new DFAgentDescription();
+	  dfd.setName(getAID());
+	  ServiceDescription sd = new ServiceDescription();
+	  sd.setType("book-selling");
+	  sd.setName("JADE-book-trading");
+	  dfd.addServices(sd);
+	  try {
+		  DFService.register(this, dfd);
     }
     catch (FIPAException fe) {
       fe.printStackTrace();
@@ -75,13 +82,14 @@ public class BookSellerAgent extends Agent {
 	        //title found in the catalogue, respond with its price as a proposal
 	        reply.setPerformative(ACLMessage.PROPOSE);
 	        reply.setContent(String.valueOf(book.getTotalPrice()));
+			myAgent.send(reply);
 	      }
-	      else {
+	      else if(responseIfNotFound) {
 	        //title not found in the catalogue
 	        reply.setPerformative(ACLMessage.REFUSE);
 	        reply.setContent("not-available");
+			myAgent.send(reply);
 	      }
-	      myAgent.send(reply);
 	    }
 	    else {
 	      block();
