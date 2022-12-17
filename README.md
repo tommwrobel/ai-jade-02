@@ -14,4 +14,5 @@
 //zadanie 3
 1. Dodałem argument do BookSellerAgent - responseIfNotFound - który decyduje o tym, czy agent wysyła odpowiedź, jak nie znajdzie książki (domyślnie jest true)
 2. Dzięki temu możemy sterować agentami i spradzać czy w przypadku braku odpowiedzi nasz program działa poprawnie.
-3. Dodanie zmiennej maxIterations - jeśli znajdziemy jakiegoś agenta z szukaną książką, ale nie dostaliśmy jeszcze wszystkich odpowiedzi - jeśli ilość iteracji szukania nie przekracza maxIterations (10 domyślnie) - przerywamy szukanie i kupujemy od agenta.
+3. Dodanie zmiennej maxIterations w BookBuyerAgent: jeśli znajdziemy książkę, to szukamy najlepszej oferty przez 10 iteracji (spradzamy czy wszyscy agencji wyslali swoje odpowiedzi)
+4. Jeśli nie znaleźliśmy żadnej oferty to szukamy aż znajdziemy (tutaj logika się nie zmieniła).
