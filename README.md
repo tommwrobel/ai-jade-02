@@ -6,8 +6,8 @@
 
 ## zadanie 2
 1. dodałem pole w klasie BookBuyerAgent o nazwie "budget"
-2. poniezej - linijka 32. - to pole ustawia nam sie z parametrów, ktore podajemy w pliku build.xml - linijka 23. (ustawiam to na 100, mozesz inaczej)
-3. modyfikuej kod - jak znajdzie nam cene najlepszej ksiazki to na koncu spradza czy cena nie przewyzsza budzetu plik BookBuyerAgent, linkijki 127-130)
+2. poniżej - linijka 32. - to pole ustawia nam sie z parametrów, ktore podajemy w pliku build.xml - linijka 23.
+3. modyfikacja kodu - jak znajdzie nam cene najlepszej ksiazki to na koncu sprawdza czy cena nie przewyzsza budzetu - plik BookBuyerAgent, linkijki 127-130)
 4. Jesli przewyzsza, to ustawia step na 4, przez co wychodzi z operacji kupowania
 5. Jesli nie przewyzsza, to kupuje ksiazke i pomniejsza budzet o cene (linijka 158 w pliku BookBuyerAgent)
 
@@ -18,4 +18,4 @@
 4. Jeśli nie znaleźliśmy żadnej oferty to szukamy aż znajdziemy (tutaj logika się nie zmieniła).
 
 ## zadanie 5 - propozycja rozwiazania
-1. Kaazda ksiazka sellera powinna miec również status który oznacza czy ksiazka jest zaoferowana juz ktoremus sellerowu czy nie, jesli jest to nie bierze jej pod uwagę podczas otwrzymania requesta od innego sellera.
+1. Każda książka sellera powinna mieć również status który oznacza czy książka jest zaoferowana juz któremuś sellerowu czy nie, jesli jest to nie bierze jej pod uwagę podczas otwrzymania requesta od innego sellera.
